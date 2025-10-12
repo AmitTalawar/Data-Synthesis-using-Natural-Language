@@ -1,0 +1,23 @@
+{
+    "schema": {
+        "fact_table": "sales",
+        "dimensions": ["customers", "products", "dates"],
+        "relationships": {
+            "sales.customer_id": "customers.customer_id",
+            "sales.product_id": "products.product_id",
+            "sales.date_id": "dates.date_id"
+        }
+    },
+    "rows": {
+        "sales": 50000000,
+        "customers": 1000000,
+        "products": 10000,
+        "dates": 3650
+    },
+    "distributions": {
+        "products": "zipfian(s=1.2)",
+        "sales.date_id": "seasonal(peak=December, base=uniform)",
+        "sales.customer_id": "uniform"
+    },
+    "goals": ["stress group-by", "stress join performance"]
+}

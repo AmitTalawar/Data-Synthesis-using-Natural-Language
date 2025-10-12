@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "projectName": "logistics",
+    "version": "v1",
+    "description": "Logistics dataset for stress testing"
+  },
+  "schema": {
+    "fact_table": "shipments",
+    "dimensions": [
+      "hubs",
+      "carriers",
+      "routes",
+      "time"
+    ],
+    "tables": {
+      "shipments": [
+        {
+          "name": "shipment_id",
+          "type": "int",
+          "special": "primary_key"
+        },
+        {
+          "name": "tracking_number",
+          "type": "string",
+          "special": "null"
+        },
+        {
+          "name": "volume",
+          "type": "float",
+          "special": "null"
+        },
+        {
+          "name": "hubs_id",
+          "type": "int",
+          "special": "foreign_key:hubs"
+        },
+        {
+          "name": "carriers_id",
+          "type": "int",
+          "special": "foreign_key:carriers"
+        },
+        {
+          "name": "routes_id",
+          "type": "int",
+          "special": "foreign_key:routes"
+        },
+        {
+          "name": "time_id",
+          "type": "int",
+          "special": "foreign_key:time"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "special": "null"
+        }
+      ],
+      "hubs": [
+        {
+          "name": "hub_id",
+          "type": "int",
+          "special": "primary_key"
+        },
+        {
+          "name": "hub_name",
+          "type": "string",
+          "special": "null"
+        },
+        {
+          "name": "hubs_name",
+          "type": "string",
+          "special": "null"
+        }
+      ],
+      "carriers": [
+        {
+          "name": "carrier_id",
+          "type": "int",
+          "special": "primary_key"
+        },
+        {
+          "name": "carrier_name",
+          "type": "string",
+          "special": "null"
+        },
+        {
+          "name": "carriers_name",
+          "type": "string",
+          "special": "null"
+        }
+      ],
+      "routes": [
+        {
+          "name": "route_id",
+          "type": "int",
+          "special": "primary_key"
+        },
+        {
+          "name": "route_name",
+          "type": "string",
+          "special": "null"
+        },
+        {
+          "name": "routes_name",
+          "type": "string",
+          "special": "null"
+        }
+      ],
+      "time": [
+        {
+          "name": "time_id",
+          "type": "int",
+          "special": "primary_key"
+        },
+        {
+          "name": "day_of_week",
+          "type": "int",
+          "special": "null"
+        },
+        {
+          "name": "week_of_year",
+          "type": "int",
+          "special": "null"
+        },
+        {
+          "name": "time_name",
+          "type": "string",
+          "special": "null"
+        }
+      ]
+    }
+  },
+  "generation_properties": {
+    "row_counts": {
+      "shipments": 75000000,
+      "hubs": 10000,
+      "carriers": 500,
+      "routes": 1000,
+      "time": 1000
+    },
+    "distributions": {
+      "shipments.volume": "pareto(alpha=0.8)",
+      "time.day_of_week": "seasonal(peak=Monday, base=uniform)",
+      "time.week_of_year": "seasonal(peak=Friday, base=uniform)"
+    }
+  },
+  "stress_goals": [
+    "stress join performance",
+    "stress complex aggregations"
+  ]
+}
