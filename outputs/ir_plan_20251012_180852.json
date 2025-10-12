@@ -1,0 +1,188 @@
+{
+  "metadata": {
+    "projectName": "LogisticsDataset",
+    "version": "1.0",
+    "description": "A synthetic logistics dataset for stress-testing join performance and complex aggregations."
+  },
+  "schema": {
+    "fact_table": "shipments",
+    "dimension_tables": [
+      "hubs",
+      "carriers",
+      "routes",
+      "time"
+    ],
+    "tables": {
+      "shipments": [
+        {
+          "name": "shipment_id",
+          "type": "INTEGER",
+          "special": "primary_key"
+        },
+        {
+          "name": "tracking_number",
+          "type": "VARCHAR(255)",
+          "special": null
+        },
+        {
+          "name": "origin_hub_id",
+          "type": "INTEGER",
+          "special": "foreign_key:hubs"
+        },
+        {
+          "name": "destination_hub_id",
+          "type": "INTEGER",
+          "special": "foreign_key:hubs"
+        },
+        {
+          "name": "carrier_id",
+          "type": "INTEGER",
+          "special": "foreign_key:carriers"
+        },
+        {
+          "name": "route_id",
+          "type": "INTEGER",
+          "special": "foreign_key:routes"
+        },
+        {
+          "name": "shipment_time_id",
+          "type": "INTEGER",
+          "special": "foreign_key:time"
+        },
+        {
+          "name": "shipping_method",
+          "type": "VARCHAR(50)",
+          "special": null
+        },
+        {
+          "name": "shipment_cost",
+          "type": "DECIMAL(10, 2)",
+          "special": null
+        },
+        {
+          "name": "package_weight_kg",
+          "type": "DECIMAL(10, 3)",
+          "special": null
+        }
+      ],
+      "hubs": [
+        {
+          "name": "hub_id",
+          "type": "INTEGER",
+          "special": "primary_key"
+        },
+        {
+          "name": "hub_name",
+          "type": "VARCHAR(255)",
+          "special": null
+        },
+        {
+          "name": "city",
+          "type": "VARCHAR(100)",
+          "special": null
+        },
+        {
+          "name": "country",
+          "type": "VARCHAR(100)",
+          "special": null
+        },
+        {
+          "name": "handling_capacity_per_day",
+          "type": "INTEGER",
+          "special": null
+        }
+      ],
+      "carriers": [
+        {
+          "name": "carrier_id",
+          "type": "INTEGER",
+          "special": "primary_key"
+        },
+        {
+          "name": "carrier_name",
+          "type": "VARCHAR(255)",
+          "special": null
+        },
+        {
+          "name": "service_level",
+          "type": "VARCHAR(50)",
+          "special": null
+        }
+      ],
+      "routes": [
+        {
+          "name": "route_id",
+          "type": "INTEGER",
+          "special": "primary_key"
+        },
+        {
+          "name": "route_name",
+          "type": "VARCHAR(255)",
+          "special": null
+        },
+        {
+          "name": "distance_km",
+          "type": "INTEGER",
+          "special": null
+        },
+        {
+          "name": "typical_duration_hours",
+          "type": "INTEGER",
+          "special": null
+        }
+      ],
+      "time": [
+        {
+          "name": "time_id",
+          "type": "INTEGER",
+          "special": "primary_key"
+        },
+        {
+          "name": "full_date",
+          "type": "DATE",
+          "special": null
+        },
+        {
+          "name": "day_of_week",
+          "type": "VARCHAR(10)",
+          "special": null
+        },
+        {
+          "name": "month",
+          "type": "INTEGER",
+          "special": null
+        },
+        {
+          "name": "year",
+          "type": "INTEGER",
+          "special": null
+        }
+      ]
+    }
+  },
+  "generation_properties": {
+    "row_counts": {
+      "shipments": 75000000,
+      "hubs": 500,
+      "carriers": 50,
+      "routes": 10000,
+      "time": 1825
+    },
+    "distributions": {
+      "shipments.origin_hub_id": {
+        "base": "zipfian(s=1.3)"
+      },
+      "shipments.destination_hub_id": {
+        "base": "zipfian(s=1.2)"
+      },
+      "shipments.shipment_time_id": {
+        "pattern": "seasonal(peak=Monday,Friday)",
+        "base": "uniform"
+      }
+    }
+  },
+  "stress_goals": [
+    "stress join performance",
+    "stress complex aggregations"
+  ]
+}
