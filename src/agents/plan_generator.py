@@ -276,8 +276,8 @@ def run_ir_generation(user_prompt: str, filename_stem: Optional[str] = None) -> 
 		else:
 			return {"ir_plan": None, "error": "Final output did not contain JSON", "saved_path": None}
 
-	# # Optionally save again here if the agent didn't call the save tool
-	# saved_path: Optional[str] = None
+	# Optionally save again here if the agent didn't call the save tool
+	saved_path: Optional[str] = None
 	# try:
 	# 	# If the agent called save_ir_plan, it would have produced a tool message. We can still save here.
 	# 	ts = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -288,7 +288,7 @@ def run_ir_generation(user_prompt: str, filename_stem: Optional[str] = None) -> 
 	# except Exception:
 	# 	pass
 
-	# return {"ir_plan": ir_plan_str, "error": None, "saved_path": saved_path}
+	return {"ir_plan": ir_plan_str, "error": None, "saved_path": saved_path}
 
 if __name__ == "__main__":
 

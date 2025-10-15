@@ -1,3 +1,4 @@
 #ignore .env, githubPAT
 .env
 githubPAT.txt
+plan_generator_gemini.py
